@@ -1,3 +1,4 @@
+import { Component } from 'react';
 import AppInfo from '../app-info/app-info';
 import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
@@ -6,14 +7,26 @@ import EmployeesAddForm from '../employees-add-form/employees-add-form';
 
 import './app.css';
 
-function App() {
+class App extends Component {
+constructor(props){
+super(props)
+this.state = { 
+  data: [
+        {name: 'Исмаил', salary: 101010, increase: false, id:1},
+        {name: 'Жаха', salary: 1, increase: true, id:2},
+        {name: 'Джо', salary: 990090, increase: false, id:3} 
+      ]}
+}
 
-const data = [
-  {name: 'Исмаил', salary: 101010, increase: false},
-  {name: 'Жаха', salary: 1, increase: true},
-  {name: 'Джо', salary: 990090, increase: false} 
-]
+        onDelete = (id) => {
+        this.setState(({data}) => {
+          return{
+            data: data.filter(item => item.id !== id)
+          }
+        })
+        }
 
+render() {
   return (
     <div className="app">
         <AppInfo />
@@ -23,10 +36,12 @@ const data = [
             <AppFilter/>
         </div>
         
-        <EmployeesList data={data}/>
+        <EmployeesList
+         data={this.state.data}
+          delate={this.onDelete}/>
         <EmployeesAddForm/>
     </div>
   );
-}
+}}
 
 export default App;
